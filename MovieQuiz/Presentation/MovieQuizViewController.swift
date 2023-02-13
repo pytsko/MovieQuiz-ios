@@ -72,6 +72,7 @@ final class MovieQuizViewController: UIViewController {
     }
 
     private func showAnswerResult(isCorrect: Bool) {
+        currentQuestionIndex += 1
         if isCorrect {
             correctAnswers += 1
         }
@@ -87,7 +88,7 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showNextQuestionOrResults() {
-        if currentQuestionIndex == questions.count - 1 {
+        if currentQuestionIndex == questions.count {
             let text = "Ваш результат: \(correctAnswers) из 10"
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
@@ -95,17 +96,17 @@ final class MovieQuizViewController: UIViewController {
                 buttonText: "Сыграть ещё раз")
             show(quiz: viewModel)
         } else {
-            currentQuestionIndex += 1
             let nextQuestion = questions[currentQuestionIndex]
             let viewModel = convert(model: nextQuestion)
 
             show(quiz: viewModel)
+            
         }
     }
 
     private func show(quiz step: QuizStepViewModel) {
         textLabel.text = step.question
-        counterLabel.text = "\(currentQuestionIndex)/\(questions.count)"
+        counterLabel.text = "\(currentQuestionIndex + 1)/\(questions.count)"
         imageView.image = step.image
     }
 
